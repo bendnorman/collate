@@ -3,6 +3,8 @@ from urllib.parse import urlparse
 
 from io import BytesIO
 
+import collate
+
 
 PORT_NUMBER = 8080
 
@@ -34,6 +36,8 @@ try:
     # incoming request
     server = HTTPServer(('', PORT_NUMBER), CORSHTTPRequestHandler)
     print(f'Started httpserver on port {PORT_NUMBER}')
+    
+    print(collate.address_to_loc('1 East Loop Rd.'))
 
     # Wait forever for incoming htto requests
     server.serve_forever()
