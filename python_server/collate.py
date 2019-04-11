@@ -54,7 +54,6 @@ def address_realestate_features(addr):
     # print(features.iloc[:, 7:])
     return features.iloc[:, 7:]
 
-
 def plot_realestate_trends(addr):
     # """Plots zillow realestate trends given an address and year interval"""
     zillow_data, _ = file_init()
@@ -69,3 +68,7 @@ def plot_realestate_trends(addr):
     plt.xticks(rotation=90)
     plt.plot(x, addr_y)
     plt.plot(x, city_average)
+
+def address_to_bbl(addr):
+    pluto = gpd.read_file('data/pluto_census_tract.geojson')
+    return pluto[pluto['address']==addr]
