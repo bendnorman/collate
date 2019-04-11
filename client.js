@@ -51,7 +51,8 @@ function getProjectData(form) {
     Http.onload = function() {
         if (Http.readyState == XMLHttpRequest.DONE) {
             var data = JSON.parse(Http.responseText)
-            map.setView([data['long'], data['lat']], 15);
+            var location = data['location']
+            map.setView([location['long'], location['lat']], 15);
             
         }
     }
