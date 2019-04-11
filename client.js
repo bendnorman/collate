@@ -1,4 +1,4 @@
-const map = L.map('map').setView([40.75580565, -73.95491257451251], 15);
+const map = L.map('map').setView([40.75, -73.95], 11);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
     maxZoom: 18
 }).addTo(map);
@@ -50,7 +50,9 @@ function getProjectData(form) {
     // Get data back
     Http.onload = function() {
         if (Http.readyState == XMLHttpRequest.DONE) {
-            console.log(Http.responseText)
+            var data = JSON.parse(Http.responseText)
+            map.setView([data['long'], data['lat']], 15);
+            
         }
     }
 }

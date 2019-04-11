@@ -1,5 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer, SimpleHTTPRequestHandler, test
 from urllib.parse import urlparse
+from urllib.parse import unquote
+import json
 
 from io import BytesIO
 
@@ -22,13 +24,14 @@ class CORSHTTPRequestHandler(SimpleHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         
-        address = urlparse(self.path).query.split('=')[1]
-        print(address)
+        # Get and Post long, lat
+        address = unquote(urlparse(self.path).query.split('=')[1])
+        print(f"Address: {address}")
+        location = collate.address_to_loc(address)
+        print((location))
         
-        response = BytesIO()
-        response.write(b'This is POST request. ')
-        print(response.getvalue())
-        self.wfile.write(response.getvalue())
+        # self.wfile.write(json.dumps({'long': -73.9549125745125, 'lat': 40.75580565}))
+        self.wfile.write(str.encode(json.dumps(location)))
     
     
 try:
@@ -36,9 +39,6 @@ try:
     # incoming request
     server = HTTPServer(('', PORT_NUMBER), CORSHTTPRequestHandler)
     print(f'Started httpserver on port {PORT_NUMBER}')
-    
-    print(collate.plot_realestate_trends('1 East Loop Rd.'))
-
 
     # Wait forever for incoming htto requests
     server.serve_forever()

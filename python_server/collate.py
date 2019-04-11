@@ -13,6 +13,21 @@ import matplotlib
 matplotlib.use('PS')
 import matplotlib.pyplot as plt
 
+def address_to_loc(addr):
+    """Long and Lat of (addr)"""
+    # TODO: will fail if addr not valid!
+    
+    zillow_shape_file = file_init()
+    geolocator = Nominatim(user_agent="collate")
+    location = geolocator.geocode(addr)
+    location = Point(location.longitude, location.latitude)
+    return {'long': location.coords[0][1], 'lat': location.coords[0][0]}
+    
+
+
+
+
+##########################
 
 # Create shape file
 # assumption! city needs to be inputted
