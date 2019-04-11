@@ -10,6 +10,8 @@ from shapely.geometry import Point, Polygon
 from geopy.geocoders import Nominatim
 import matplotlib.pyplot as plt
 
+import sys
+
 # Create shape file
 def file_init(neighborhood='New York'):
     zillow_data = pd.read_csv('data/Neighborhood_Zhvi_AllHomes.csv')
@@ -55,5 +57,13 @@ def plot_realestate_trends(addr, years=2):
     plt.plot(x, city_average)
 
 if __name__== "__main__":
-    # file_init()
-    plot_realestate_trends("1 East Loop Rd.", years=5)
+    #initialize
+    address_input = "1 East Loop Rd."
+    years_input = 5
+
+    if len(sys.argv) == 2:
+        address_input = sys.argv[1]
+    elif len(sys.argv) == 3:
+        years_input = sys.argv[2]
+
+    plot_realestate_trends(address_input, years=years_input)
