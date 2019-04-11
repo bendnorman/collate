@@ -5,7 +5,7 @@ import json
 
 from io import BytesIO
 
-import collate
+from collate import Collate
 
 
 PORT_NUMBER = 8080
@@ -27,11 +27,11 @@ class CORSHTTPRequestHandler(SimpleHTTPRequestHandler):
         # Get and Post long, lat
         address = unquote(urlparse(self.path).query.split('=')[1])
         print(f"Address: {address}")
-        location = collate.address_to_loc(address)
-        print((location))
         
-        # self.wfile.write(json.dumps({'long': -73.9549125745125, 'lat': 40.75580565}))
-        self.wfile.write(str.encode(json.dumps(location)))
+        data = cl.address_data_request(address)
+        print(data)
+        
+        self.wfile.write(str.encode(json.dumps(data)))
     
     
 try:
@@ -39,7 +39,7 @@ try:
     # incoming request
     server = HTTPServer(('', PORT_NUMBER), CORSHTTPRequestHandler)
     print(f'Started httpserver on port {PORT_NUMBER}')
-
+    cl = Collate()
     # Wait forever for incoming htto requests
     server.serve_forever()
 
