@@ -19,7 +19,7 @@ def address_to_loc(addr):
     geolocator = Nominatim(user_agent="collate")
     location = geolocator.geocode(addr)
     location = Point(location.longitude, location.latitude)
-    return location
+    return {'long': location.coords[0][1], 'lat': location.coords[0][0]}
 
 
 
