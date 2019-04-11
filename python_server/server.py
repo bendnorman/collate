@@ -37,7 +37,8 @@ try:
     server = HTTPServer(('', PORT_NUMBER), CORSHTTPRequestHandler)
     print(f'Started httpserver on port {PORT_NUMBER}')
     
-    print(collate.address_to_loc('1 East Loop Rd.'))
+    print(collate.plot_realestate_trends('1 East Loop Rd.'))
+
 
     # Wait forever for incoming htto requests
     server.serve_forever()
