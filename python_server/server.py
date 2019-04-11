@@ -40,6 +40,8 @@ try:
     server = HTTPServer(('', PORT_NUMBER), CORSHTTPRequestHandler)
     print(f'Started httpserver on port {PORT_NUMBER}')
 
+    print(collate.address_to_bbl('1 East Loop Rd.'))
+
     # Wait forever for incoming htto requests
     server.serve_forever()
 

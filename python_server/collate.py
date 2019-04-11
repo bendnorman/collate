@@ -86,4 +86,4 @@ def plot_realestate_trends(addr):
 
 def address_to_bbl(addr):
     pluto = gpd.read_file('data/pluto_census_tract.geojson')
-    return pluto[pluto['address']==addr]
+    return pluto.loc[pluto['address']==addr]
