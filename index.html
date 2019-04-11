@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Collate</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Include Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" rel="stylesheet">
+    <!-- Include CARTO.js -->
+    <script src="https://cartodb-libs.global.ssl.fastly.net/carto.js/v4.1.11/carto.min.js"></script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="container">
+        <div id="widgets">
+            <div id="projectWidget" class="widget">
+                <FORM NAME="myform" ACTION="" METHOD="GET">Project Profile
+                    <BR>
+                    <P>Address</P>
+                    <INPUT TYPE="text" NAME="inputbox" VALUE="">
+                    <INPUT TYPE="button" NAME="button" Value="Click" onClick="getProjectData(this.form)">
+                </FORM>
+            </div>
+        </div>
+        <div id="map"></div>
+        <div id="widgets">
+            <div id="countriesWidget" class="widget">
+                <h1>Real Estate Trends</h1>
+            </div>
+            <div id="avgPopulationWidget" class="widget widget-formula">
+                <h1>Average population</h1>
+                <p><span class="js-average-population result">xxx</span> inhabitants</p>
+            </div>
+        </div>
+    </div>
+    <script src='backend.js'></script>
+</body>
+
+</html>
