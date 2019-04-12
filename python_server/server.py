@@ -29,7 +29,7 @@ class CORSHTTPRequestHandler(SimpleHTTPRequestHandler):
         print(f"Address: {address}")
         
         data = cl.address_data_request(address)
-        print(data)
+        # print(data)
         
         self.wfile.write(str.encode(json.dumps(data)))
     
@@ -41,6 +41,7 @@ try:
     print(f'Started httpserver on port {PORT_NUMBER}')
 
     cl = Collate()
+    print("Finished Loading Data")
 
     # Wait forever for incoming htto requests
     server.serve_forever()

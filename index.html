@@ -19,10 +19,20 @@
     <div id="container">
         <div id="widgets">
             <div id="projectWidget" class="widget">
-                <FORM NAME="myform" ACTION="" METHOD="GET">Project Profile
+                <h2>Project Profile</h2>
+                <FORM NAME="myform" ACTION="" METHOD="GET">
                     <BR>
+                    <P>Project Name</P>
+                    <INPUT TYPE="text" NAME="name" VALUE="The House at Cornell Tech">
                     <P>Address</P>
-                    <INPUT TYPE="text" NAME="inputbox" VALUE="1 East Loop Rd.">
+                    <INPUT TYPE="text" NAME="address" VALUE="1 EAST LOOP ROAD">
+                    <P>Occupants</P>    
+                    <INPUT TYPE="text" NAME="occupants" VALUE="310">
+                    <P>Average Age</P>
+                    <INPUT TYPE="text" NAME="age" VALUE="28">
+                    <P>Average Income</P>        
+                    <INPUT TYPE="text" NAME="income" VALUE="70,000">
+                        
                     <INPUT TYPE="button" NAME="button" Value="Click" onClick="getProjectData(this.form)">
                 </FORM>
             </div>

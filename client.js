@@ -17,26 +17,44 @@ var client = new carto.Client({
 const zillowNeighborhoodsDataset = new carto.source.Dataset(`
     zillowneighborhoods_ny
   `);
+  
+const plutoOneDataset = new carto.source.Dataset(`
+  table_1_pluto
+`);
+const plutoTwoDataset = new carto.source.Dataset(`
+  table_2_pluto
+`);
+const plutoThreeDataset = new carto.source.Dataset(`
+  table_3_pluto
+`);
 
 const zillowNeighborhoodsStyle = new carto.style.CartoCSS(`
     #layer {
-    polygon-fill: #162945;
+    polygon-fill: #1548fb;
       polygon-opacity: 0.5;
       ::outline {
-        line-width: 1;
-        line-color: #FFFFFF;
+        line-width: 0.3;
+        line-color: #000000;
         line-opacity: 0.5;
       }
     }
   `);
 const zillowNeighborhoods = new carto.layer.Layer(zillowNeighborhoodsDataset, zillowNeighborhoodsStyle);
+const plutoOne = new carto.layer.Layer(plutoOneDataset, zillowNeighborhoodsStyle);
+const plutoTwo = new carto.layer.Layer(plutoTwoDataset, zillowNeighborhoodsStyle);
+const plutoThree = new carto.layer.Layer(plutoThreeDataset, zillowNeighborhoodsStyle);
 
-client.addLayers([zillowNeighborhoods]);
+
+
+// client.addLayers([zillowNeighborhoods, plutoOne, plutoTwo, plutoThree]);
+client.addLayers([plutoOne, plutoTwo, plutoThree]);
+// client.addLayers([spainCitiesLayer])
+
 client.getLeafletLayer().addTo(map);
 
 //// Project Profile
 function getProjectData(form) {
-    var address = form.inputbox.value;
+    var address = form.address.value;
     console.log(address)
     const Http = new XMLHttpRequest();
     const url = 'http://localhost:8080/?address=' + address;
@@ -52,8 +70,32 @@ function getProjectData(form) {
         if (Http.readyState == XMLHttpRequest.DONE) {
             var data = JSON.parse(Http.responseText)
             var location = data['location']
-            map.setView([location['long'], location['lat']], 15);
+            map.setView([location['long'], location['lat']], 17);
+            console.log(data['polygon'])
             
+            const spainCitiesSource = new carto.source.SQL(`
+                    SELECT *
+                      FROM table_1_pluto
+                      WHERE address = \'1 EAST LOOP ROAD\'
+                  `);
+            // TODO: THIS IS HARDCODED AND ONLY LOOKING AT A THIRD OF PLUTO
+            console.log(spainCitiesSource)
+
+            const spainCitiesStyle = new carto.style.CartoCSS(`
+                  #layer {
+                    marker-width: 7;
+                    marker-fill: #EE4D5A;
+                    marker-line-color: #FFFFFF;
+                  }
+                `);
+            const spainCitiesLayer = new carto.layer.Layer(spainCitiesSource, spainCitiesStyle);
+            client.addLayers([spainCitiesLayer])
+            
+            // console.log(data['polygon'])
+            // 
+            // var polygon = L.polygon(data['polygon'], {color: 'red'});
+            // polygon.addTo(map);
+            // 
         }
     }
 }

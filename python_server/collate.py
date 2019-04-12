@@ -18,6 +18,7 @@ class Collate:
         zillow = self.file_init()
         self.zillow_data = zillow[0]
         self.zillow_shape_file = zillow[1]
+        self.pluto = gpd.read_file('data/pluto_census_tract.geojson')
         
     def file_init(self, city='New York'):
         """Initializes the data for Collate()"""
@@ -32,6 +33,9 @@ class Collate:
     def address_data_request(self, addr):
         location_json = self.address_to_loc_json(addr)
         real_estate_data = self.address_realestate_features(addr)
+        polygon = self.address_to_polygon(addr)
+        
+        print(polygon)
         
         full_json = {'location': location_json, 'real_estate_data': real_estate_data}
         return full_json
@@ -72,12 +76,10 @@ class Collate:
         return {'real_estate': features.iloc[:, 7:].to_json()}
 
     def address_to_bbl(self, addr):
-        pluto = gpd.read_file('data/pluto_census_tract.geojson')
-        return pluto.loc[pluto['address'].contains(addr, na=False)]['bbl']
+        return self.pluto.loc[self.pluto['address'].contains(addr, na=False)]['bbl']
 
     def address_to_polygon(self, addr):
-        pluto = gpd.read_file('data/pluto_census_tract.geojson')
-        return pluto.loc[pluto['address'].contains(addr, na=False)]['geometry']
+        return self.pluto.loc[self.pluto['address'] == addr]['geometry']
 # 
 # 
 # 
