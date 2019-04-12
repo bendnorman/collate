@@ -27,6 +27,9 @@ const plutoTwoDataset = new carto.source.Dataset(`
 const plutoThreeDataset = new carto.source.Dataset(`
   table_3_pluto
 `);
+const cleanPlutoDataset = new carto.source.Dataset(`
+  cleaned_pluto
+`);
 
 const zillowNeighborhoodsStyle = new carto.style.CartoCSS(`
     #layer {
@@ -44,17 +47,54 @@ const plutoOne = new carto.layer.Layer(plutoOneDataset, zillowNeighborhoodsStyle
 const plutoTwo = new carto.layer.Layer(plutoTwoDataset, zillowNeighborhoodsStyle);
 const plutoThree = new carto.layer.Layer(plutoThreeDataset, zillowNeighborhoodsStyle);
 
+const cleanPluto = new carto.layer.Layer(cleanPlutoDataset, zillowNeighborhoodsStyle);
+
 
 
 // client.addLayers([zillowNeighborhoods, plutoOne, plutoTwo, plutoThree]);
-client.addLayers([plutoOne, plutoTwo, plutoThree]);
-// client.addLayers([spainCitiesLayer])
+// client.addLayers([plutoOne, plutoTwo, plutoThree]);
+client.addLayers([cleanPluto])
 
 client.getLeafletLayer().addTo(map);
 
+
+
+var img = document.getElementById('trends');
+img.style.visibility = 'hidden';
+
+function updateOccupantInput(val) {
+    var avgPopulation = parseFloat(document.getElementById('avgPopulation').innerHTML)
+    document.getElementById('occupantsVal').innerHTML=val; 
+    val = parseFloat(val)
+    
+    // console.log(val)
+    // console.log(avgPopulation)
+    var change = Number((((val + avgPopulation) / avgPopulation) * 100 - 100).toFixed(2))
+    document.getElementById('populationDiff').innerHTML = change + ' %'
+    
+    document.getElementById('pop_diff').style.background = rgba(10 + change*20, 203 - change * 20, 0, 0.2);
+}
+
+function rgba(r, g, b, a){
+  return "rgba("+r+","+g+","+b+","+a+")";
+}
+
+function updateIncomeInput(val) {
+    var avgIncome = document.getElementById('avgIncome').innerHTML
+    document.getElementById('incomeVal').innerHTML=val; 
+    var change = Number(((val - avgIncome) / avgIncome * 100).toFixed(2))
+    document.getElementById('incomeDiff').innerHTML = change  + ' %';
+    document.getElementById('income_diff').style.background = rgba(10 + change*10, 203 - change * 10, 0, 0.2);
+}
+
+// function buttonClick() {
+//     var address = document.getElementById('address').value
+// 
+// }
+
 //// Project Profile
-function getProjectData(form) {
-    var address = form.address.value;
+function getProjectData() {
+    var address = document.getElementById('address').value
     console.log(address)
     const Http = new XMLHttpRequest();
     const url = 'http://localhost:8080/?address=' + address;
@@ -71,8 +111,17 @@ function getProjectData(form) {
             var data = JSON.parse(Http.responseText)
             var location = data['location']
             map.setView([location['long'], location['lat']], 17);
-            console.log(data['polygon'])
             
+            console.log(data['census_data'])
+            document.getElementById('avgIncome').innerHTML = data['census_data']['income'];
+            document.getElementById('avgPopulation').innerHTML = data['census_data']['population'];
+            
+            var img = document.getElementById('trends');
+            img.style.visibility = 'visible';
+            
+            
+            
+            // DISPLAYING RED DOT
             const spainCitiesSource = new carto.source.SQL(`
                     SELECT *
                       FROM table_1_pluto
@@ -83,7 +132,7 @@ function getProjectData(form) {
 
             const spainCitiesStyle = new carto.style.CartoCSS(`
                   #layer {
-                    marker-width: 7;
+                    marker-width: 20;
                     marker-fill: #EE4D5A;
                     marker-line-color: #FFFFFF;
                   }
@@ -94,8 +143,7 @@ function getProjectData(form) {
             // console.log(data['polygon'])
             // 
             // var polygon = L.polygon(data['polygon'], {color: 'red'});
-            // polygon.addTo(map);
-
+            // polygon.addTo(map)
 
             // get real estate trends
             var trend = data['real_estate']

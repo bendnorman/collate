@@ -13,39 +13,64 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="materialize.css"> -->
 </head>
 
 <body>
+    <div id="header" class="header"><img class='logo' src="data/logo.png"></div>
     <div id="container">
         <div id="widgets">
-            <div id="projectWidget" class="widget">
-                <h2>Project Profile</h2>
-                <FORM NAME="myform" ACTION="" METHOD="GET">
-                    <BR>
-                    <P>Project Name</P>
-                    <INPUT TYPE="text" NAME="name" VALUE="The House at Cornell Tech">
-                    <P>Address</P>
-                    <INPUT TYPE="text" NAME="address" VALUE="1 EAST LOOP ROAD">
-                    <P>Occupants</P>    
-                    <INPUT TYPE="text" NAME="occupants" VALUE="310">
-                    <P>Average Age</P>
-                    <INPUT TYPE="text" NAME="age" VALUE="28">
-                    <P>Average Income</P>        
-                    <INPUT TYPE="text" NAME="income" VALUE="70,000">
-                        
-                    <INPUT TYPE="button" NAME="button" Value="Click" onClick="getProjectData(this.form)">
-                </FORM>
+            <h1>Project Profile</h1>
+            <div id="name" class="widget widget-formula">
+                <h1>Project Name</h1>
+                <INPUT TYPE="text" NAME="name" VALUE="The House at Cornell Tech">
             </div>
+            <div id="addr" class="widget widget-formula">
+                <h1>Address</h1>
+                <INPUT TYPE="text" id="address" NAME="address" VALUE="1 EAST LOOP ROAD">
+            </div>
+            <div id="occ" class="widget widget-formula">
+                <h1>Occupants</h1>
+                1<input type="range" min="1" max="800" value="200" class="slider" id="occupants", onchange="updateOccupantInput(this.value);">800 |
+                <span id="occupantsVal" style="color:rgb(0, 91, 55);"></span>
+            </div>
+            <div id="inc" class="widget widget-formula">
+                <h1>Average Income</h1>
+                20000<input type="range" min="20000" max="200000" value="70000" class="slider" id="income", onchange="updateIncomeInput(this.value);">200000 |
+                <span id="incomeVal" style="color:rgb(0, 91, 55);"></span>
+            </div>
+            <div id="inc" class="widget widget-formula">
+                <h1>Average Age</h1>
+                <INPUT TYPE="text" NAME="age" VALUE="28">
+            </div>            
+            <button class="btn success" type="button" onclick="getProjectData()">Analyze</button>
         </div>
         <div id="map"></div>
+        
         <div id="widgets">
-            <div id="countriesWidget" class="widget">
+            <h1>Analysis</h1>
+            <div id="avg_income" class="widget widget-formula">
+                <h1>Study Area Average Income</h1>
+                <span id="avgIncome" style="color:rgb(0, 91, 55);">0</span>
+            </div>
+            <div id="income_diff" class="widget widget-formula">
+                <h1>Income Difference</h1>
+                <span id="incomeDiff" style="color:rgb(0, 91, 55);">0</span>
+            </div>
+            <div id="avg_pop" class="widget widget-formula">
+                <h1>Study Area Average Population</h1>
+                <span id="avgPopulation" style="color:rgb(0, 91, 55);">0</span>
+            </div>
+            <div id="pop_diff" class="widget widget-formula">
+                <h1>Study Area Population Change</h1>
+                <span id="populationDiff" style="color:rgb(0, 91, 55);">0</span>
+            </div>
+            <div id="trends_div" class="widget widget-formula">
                 <h1>Real Estate Trends</h1>
+                <img id='trends' class='trends' src="data/trends.png">
             </div>
-            <div id="real_estate_trends" class="widget widget-formula">
-                <h1>Address Price Trend</h1>
-                <p><span class="js-price-trend">xxx</span>% change over <span class="js-price-trend-time">xxx</span> years</p>
-            </div>
+            <button class="btn success" type="button" onclick="window.open('https://docs.google.com/document/d/1-jMAs4wqRypW40XvY5TLU97MvHgJR3C8hYJg-OXdTrI/edit#', '_blank');">Export Report</button>
+            
         </div>
     </div>
     <script src='client.js'></script>
