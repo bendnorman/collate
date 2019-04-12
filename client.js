@@ -53,7 +53,35 @@ function getProjectData(form) {
             var data = JSON.parse(Http.responseText)
             var location = data['location']
             map.setView([location['long'], location['lat']], 15);
-            
+
+            // get real estate trends
+            var trend = data['real_estate']
+
+            // set the dataview
+            real_estate_trend.set(trend)
+
         }
     }
+}
+
+// const real_estate_trend = new carto.dataview.>?!?!>!
+
+// Add a dataview to the client
+client.addDataview(real_estate_trend)
+ .then(() => {
+   console.log('Dataview added');
+ })
+ .catch(cartoError => {
+   console.error(cartoError.message);
+ });
+
+
+real_estate_trend.on('dataChanged', data => {
+  refreshRealEstateTrendWidget(data.result);
+});
+
+function refreshRealEstateTrendWidget(real_estate_trend) {
+  const widgetDom = document.querySelector('#real_estate_trends');
+  const averagePopulationDom = widgetDom.querySelector('.js-price-trend');
+  averagePopulationDom.innerText = Math.round(real_estate_trend);
 }
