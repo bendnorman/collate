@@ -97,7 +97,7 @@ function getProjectData() {
     var address = document.getElementById('address').value
     console.log(address)
     const Http = new XMLHttpRequest();
-    const url = 'https://3.14.181.240:8080/?address=' + address;
+    const url = 'http://3.14.181.240:8080/?address=' + address;
     Http.open("GET", url, true);
     Http.send();
 
